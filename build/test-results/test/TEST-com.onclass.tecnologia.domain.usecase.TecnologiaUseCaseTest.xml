@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.onclass.tecnologia.domain.usecase.TecnologiaUseCaseTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-05-28T17:24:57.950Z" hostname="ANA-VARGASJ.local" time="0.171">
+  <properties/>
+  <testcase name="listarTodas_retornaLista()" classname="com.onclass.tecnologia.domain.usecase.TecnologiaUseCaseTest" time="0.159"/>
+  <testcase name="registrar_nombreNull_lanzaError()" classname="com.onclass.tecnologia.domain.usecase.TecnologiaUseCaseTest" time="0.001"/>
+  <testcase name="registrar_nombreMayorA50Chars_lanzaError()" classname="com.onclass.tecnologia.domain.usecase.TecnologiaUseCaseTest" time="0.0"/>
+  <testcase name="registrar_descripcionVacia_lanzaError()" classname="com.onclass.tecnologia.domain.usecase.TecnologiaUseCaseTest" time="0.001"/>
+  <testcase name="registrar_nombreVacio_lanzaError()" classname="com.onclass.tecnologia.domain.usecase.TecnologiaUseCaseTest" time="0.001"/>
+  <testcase name="registrar_nombreDuplicado_lanzaError()" classname="com.onclass.tecnologia.domain.usecase.TecnologiaUseCaseTest" time="0.002"/>
+  <testcase name="registrar_descripcionMayorA90Chars_lanzaError()" classname="com.onclass.tecnologia.domain.usecase.TecnologiaUseCaseTest" time="0.001"/>
+  <testcase name="registrar_descripcionNull_lanzaError()" classname="com.onclass.tecnologia.domain.usecase.TecnologiaUseCaseTest" time="0.001"/>
+  <testcase name="registrar_exitoso()" classname="com.onclass.tecnologia.domain.usecase.TecnologiaUseCaseTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
