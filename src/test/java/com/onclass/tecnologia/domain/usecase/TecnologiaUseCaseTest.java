@@ -1,5 +1,6 @@
 package com.onclass.tecnologia.domain.usecase;
 
+import com.onclass.tecnologia.domain.excepcion.TecnologiaException;
 import com.onclass.tecnologia.domain.model.Tecnologia;
 import com.onclass.tecnologia.domain.spi.ITecnologiaPersistencePort;
 import org.junit.jupiter.api.Test;
@@ -40,7 +41,7 @@ class TecnologiaUseCaseTest {
         when(persistencePort.existePorNombre("Java")).thenReturn(Mono.just(true));
 
         StepVerifier.create(useCase.registrar(tecnologia))
-                .expectError(IllegalStateException.class)
+                .expectError(TecnologiaException.class)
                 .verify();
     }
 
@@ -49,7 +50,16 @@ class TecnologiaUseCaseTest {
         Tecnologia tecnologia = new Tecnologia(null, "", "Descripción válida");
 
         StepVerifier.create(useCase.registrar(tecnologia))
-                .expectError(IllegalArgumentException.class)
+                .expectError(TecnologiaException.class)
+                .verify();
+    }
+
+    @Test
+    void registrar_nombreNull_lanzaError() {
+        Tecnologia tecnologia = new Tecnologia(null, null, "Descripción válida");
+
+        StepVerifier.create(useCase.registrar(tecnologia))
+                .expectError(TecnologiaException.class)
                 .verify();
     }
 
@@ -58,7 +68,7 @@ class TecnologiaUseCaseTest {
         Tecnologia tecnologia = new Tecnologia(null, "A".repeat(51), "Descripción válida");
 
         StepVerifier.create(useCase.registrar(tecnologia))
-                .expectError(IllegalArgumentException.class)
+                .expectError(TecnologiaException.class)
                 .verify();
     }
 
@@ -67,38 +77,7 @@ class TecnologiaUseCaseTest {
         Tecnologia tecnologia = new Tecnologia(null, "Java", "");
 
         StepVerifier.create(useCase.registrar(tecnologia))
-                .expectError(IllegalArgumentException.class)
-                .verify();
-    }
-
-    @Test
-    void registrar_descripcionMayorA90Chars_lanzaError() {
-        Tecnologia tecnologia = new Tecnologia(null, "Java", "A".repeat(91));
-
-        StepVerifier.create(useCase.registrar(tecnologia))
-                .expectError(IllegalArgumentException.class)
-                .verify();
-    }
-
-    @Test
-    void listarTodas_retornaLista() {
-        when(persistencePort.listarTodas()).thenReturn(Flux.just(
-                new Tecnologia(1L, "Java", "Lenguaje de programacin"),
-                new Tecnologia(2L, "Python", "Lenguaje de scripting")
-        ));
-
-        StepVerifier.create(useCase.listarTodas())
-                .expectNextCount(2)
-                .verifyComplete();
-    }
-
-
-    @Test
-    void registrar_nombreNull_lanzaError() {
-        Tecnologia tecnologia = new Tecnologia(null, null, "Descripción válida");
-
-        StepVerifier.create(useCase.registrar(tecnologia))
-                .expectError(IllegalArgumentException.class)
+                .expectError(TecnologiaException.class)
                 .verify();
     }
 
@@ -107,7 +86,28 @@ class TecnologiaUseCaseTest {
         Tecnologia tecnologia = new Tecnologia(null, "Java", null);
 
         StepVerifier.create(useCase.registrar(tecnologia))
-                .expectError(IllegalArgumentException.class)
+                .expectError(TecnologiaException.class)
                 .verify();
+    }
+
+    @Test
+    void registrar_descripcionMayorA90Chars_lanzaError() {
+        Tecnologia tecnologia = new Tecnologia(null, "Java", "A".repeat(91));
+
+        StepVerifier.create(useCase.registrar(tecnologia))
+                .expectError(TecnologiaException.class)
+                .verify();
+    }
+
+    @Test
+    void listarTodas_retornaLista() {
+        when(persistencePort.listarTodas()).thenReturn(Flux.just(
+                new Tecnologia(1L, "Java", "Lenguaje de programación"),
+                new Tecnologia(2L, "Python", "Lenguaje de scripting")
+        ));
+
+        StepVerifier.create(useCase.listarTodas())
+                .expectNextCount(2)
+                .verifyComplete();
     }
 }

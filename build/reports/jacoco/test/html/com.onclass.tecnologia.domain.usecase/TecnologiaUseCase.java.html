@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TecnologiaUseCase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-tecnologia</a> &gt; <a href="index.source.html" class="el_package">com.onclass.tecnologia.domain.usecase</a> &gt; <span class="el_source">TecnologiaUseCase.java</span></div><h1>TecnologiaUseCase.java</h1><pre class="source lang-java linenums">package com.onclass.tecnologia.domain.usecase;
 
+import com.onclass.tecnologia.domain.api.ITecnologiaServicePort;
+import com.onclass.tecnologia.domain.enums.TecnologiaErrorEnum;
+import com.onclass.tecnologia.domain.excepcion.TecnologiaException;
 import com.onclass.tecnologia.domain.model.Tecnologia;
 import com.onclass.tecnologia.domain.spi.ITecnologiaPersistencePort;
 import lombok.RequiredArgsConstructor;
@@ -7,41 +10,54 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public class TecnologiaUseCase {
+public class TecnologiaUseCase implements ITecnologiaServicePort {
 
     private final ITecnologiaPersistencePort persistencePort;
 
+    @Override
     public Mono&lt;Tecnologia&gt; registrar(Tecnologia tecnologia) {
-<span class="fc" id="L15">        return Mono.fromCallable(() -&gt; {</span>
-<span class="fc" id="L16">                    validar(tecnologia);</span>
-<span class="fc" id="L17">                    return tecnologia;</span>
-                })
-<span class="fc" id="L19">                .flatMap(t -&gt; persistencePort.existePorNombre(t.getNombre()))</span>
-<span class="fc" id="L20">                .flatMap(existe -&gt; {</span>
-<span class="fc bfc" id="L21" title="All 2 branches covered.">                    if (existe) {</span>
-<span class="fc" id="L22">                        return Mono.error(new IllegalStateException(&quot;Ya existe una tecnología con ese nombre&quot;));</span>
+        try {
+<span class="fc" id="L20">            validar(tecnologia);</span>
+<span class="fc" id="L21">        } catch (TecnologiaException e) {</span>
+<span class="fc" id="L22">            return Mono.error(e);</span>
+<span class="fc" id="L23">        }</span>
+<span class="fc" id="L24">        return persistencePort.existePorNombre(tecnologia.getNombre())</span>
+<span class="fc" id="L25">                .flatMap(existe -&gt; {</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">                    if (existe) {</span>
+<span class="fc" id="L27">                        return Mono.error(new TecnologiaException(</span>
+<span class="fc" id="L28">                                TecnologiaErrorEnum.NOMBRE_DUPLICADO.getCode(),</span>
+<span class="fc" id="L29">                                TecnologiaErrorEnum.NOMBRE_DUPLICADO.getMessage()));</span>
                     }
-<span class="fc" id="L24">                    return persistencePort.guardar(tecnologia);</span>
+<span class="fc" id="L31">                    return persistencePort.guardar(tecnologia);</span>
                 });
     }
 
+    @Override
     public Flux&lt;Tecnologia&gt; listarTodas() {
-<span class="fc" id="L29">        return persistencePort.listarTodas();</span>
+<span class="fc" id="L37">        return persistencePort.listarTodas();</span>
     }
 
     private void validar(Tecnologia tecnologia) {
-<span class="fc bfc" id="L33" title="All 4 branches covered.">        if (tecnologia.getNombre() == null || tecnologia.getNombre().isBlank()) {</span>
-<span class="fc" id="L34">            throw new IllegalArgumentException(&quot;El nombre es obligatorio&quot;);</span>
+<span class="fc bfc" id="L41" title="All 4 branches covered.">        if (tecnologia.getNombre() == null || tecnologia.getNombre().isBlank()) {</span>
+<span class="fc" id="L42">            throw new TecnologiaException(</span>
+<span class="fc" id="L43">                    TecnologiaErrorEnum.NOMBRE_OBLIGATORIO.getCode(),</span>
+<span class="fc" id="L44">                    TecnologiaErrorEnum.NOMBRE_OBLIGATORIO.getMessage());</span>
         }
-<span class="fc bfc" id="L36" title="All 2 branches covered.">        if (tecnologia.getNombre().length() &gt; 50) {</span>
-<span class="fc" id="L37">            throw new IllegalArgumentException(&quot;El nombre no puede superar 50 caracteres&quot;);</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (tecnologia.getNombre().length() &gt; 50) {</span>
+<span class="fc" id="L47">            throw new TecnologiaException(</span>
+<span class="fc" id="L48">                    TecnologiaErrorEnum.NOMBRE_MAX_50.getCode(),</span>
+<span class="fc" id="L49">                    TecnologiaErrorEnum.NOMBRE_MAX_50.getMessage());</span>
         }
-<span class="fc bfc" id="L39" title="All 4 branches covered.">        if (tecnologia.getDescripcion() == null || tecnologia.getDescripcion().isBlank()) {</span>
-<span class="fc" id="L40">            throw new IllegalArgumentException(&quot;La descripción es obligatoria&quot;);</span>
+<span class="fc bfc" id="L51" title="All 4 branches covered.">        if (tecnologia.getDescripcion() == null || tecnologia.getDescripcion().isBlank()) {</span>
+<span class="fc" id="L52">            throw new TecnologiaException(</span>
+<span class="fc" id="L53">                    TecnologiaErrorEnum.DESCRIPCION_OBLIGATORIA.getCode(),</span>
+<span class="fc" id="L54">                    TecnologiaErrorEnum.DESCRIPCION_OBLIGATORIA.getMessage());</span>
         }
-<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (tecnologia.getDescripcion().length() &gt; 90) {</span>
-<span class="fc" id="L43">            throw new IllegalArgumentException(&quot;La descripción no puede superar 90 caracteres&quot;);</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (tecnologia.getDescripcion().length() &gt; 90) {</span>
+<span class="fc" id="L57">            throw new TecnologiaException(</span>
+<span class="fc" id="L58">                    TecnologiaErrorEnum.DESCRIPCION_MAX_90.getCode(),</span>
+<span class="fc" id="L59">                    TecnologiaErrorEnum.DESCRIPCION_MAX_90.getMessage());</span>
         }
-<span class="fc" id="L45">    }</span>
+<span class="fc" id="L61">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

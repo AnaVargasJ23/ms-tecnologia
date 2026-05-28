@@ -1,35 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TecnologiaHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-tecnologia</a> &gt; <a href="index.source.html" class="el_package">com.onclass.tecnologia.application.handler</a> &gt; <span class="el_source">TecnologiaHandler.java</span></div><h1>TecnologiaHandler.java</h1><pre class="source lang-java linenums">package com.onclass.tecnologia.application.handler;
 
-import com.onclass.tecnologia.domain.model.Tecnologia;
-import com.onclass.tecnologia.domain.usecase.TecnologiaUseCase;
+import com.onclass.tecnologia.domain.api.ITecnologiaServicePort;
+import com.onclass.tecnologia.domain.excepcion.TecnologiaException;
+import com.onclass.tecnologia.infrastructure.entrypoints.dto.ErrorResponse;
+import com.onclass.tecnologia.infrastructure.entrypoints.dto.TecnologiaRequest;
+import com.onclass.tecnologia.infrastructure.entrypoints.dto.TecnologiaResponse;
+import com.onclass.tecnologia.infrastructure.entrypoints.mapper.TecnologiaMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+<span class="fc" id="L17">@Slf4j</span>
 @Component
 @RequiredArgsConstructor
 public class TecnologiaHandler {
 
-    private final TecnologiaUseCase tecnologiaUseCase;
+    private final ITecnologiaServicePort tecnologiaServicePort;
+    private final TecnologiaMapper tecnologiaMapper;
 
     public Mono&lt;ServerResponse&gt; registrar(ServerRequest request) {
-<span class="nc" id="L19">        return request.bodyToMono(Tecnologia.class)</span>
-<span class="nc" id="L20">                .flatMap(tecnologiaUseCase::registrar)</span>
-<span class="nc" id="L21">                .flatMap(saved -&gt; ServerResponse</span>
-<span class="nc" id="L22">                        .status(HttpStatus.CREATED)</span>
-<span class="nc" id="L23">                        .bodyValue(saved))</span>
-<span class="nc" id="L24">                .onErrorResume(IllegalArgumentException.class, e -&gt;</span>
-<span class="nc" id="L25">                        ServerResponse.badRequest().bodyValue(e.getMessage()))</span>
-<span class="nc" id="L26">                .onErrorResume(IllegalStateException.class, e -&gt;</span>
-<span class="nc" id="L27">                        ServerResponse.status(HttpStatus.CONFLICT).bodyValue(e.getMessage()));</span>
+<span class="nc" id="L26">        return request.bodyToMono(TecnologiaRequest.class)</span>
+<span class="nc" id="L27">                .map(tecnologiaMapper::toDomain)</span>
+<span class="nc" id="L28">                .flatMap(tecnologiaServicePort::registrar)</span>
+<span class="nc" id="L29">                .map(tecnologiaMapper::toResponse)</span>
+<span class="nc" id="L30">                .flatMap(response -&gt; ServerResponse</span>
+<span class="nc" id="L31">                        .status(HttpStatus.CREATED)</span>
+<span class="nc" id="L32">                        .bodyValue(response))</span>
+<span class="nc" id="L33">                .onErrorResume(TecnologiaException.class, e -&gt; {</span>
+<span class="nc" id="L34">                    log.error(&quot;Error de negocio: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L35">                    return ServerResponse</span>
+<span class="nc" id="L36">                            .status(HttpStatus.BAD_REQUEST)</span>
+<span class="nc" id="L37">                            .bodyValue(ErrorResponse.builder()</span>
+<span class="nc" id="L38">                                    .code(e.getCode())</span>
+<span class="nc" id="L39">                                    .message(e.getMessage())</span>
+<span class="nc" id="L40">                                    .build());</span>
+                })
+<span class="nc" id="L42">                .onErrorResume(Exception.class, e -&gt; {</span>
+<span class="nc" id="L43">                    log.error(&quot;Error inesperado: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L44">                    return ServerResponse</span>
+<span class="nc" id="L45">                            .status(HttpStatus.INTERNAL_SERVER_ERROR)</span>
+<span class="nc" id="L46">                            .bodyValue(ErrorResponse.builder()</span>
+<span class="nc" id="L47">                                    .code(&quot;TEC-500&quot;)</span>
+<span class="nc" id="L48">                                    .message(&quot;Error interno del servidor&quot;)</span>
+<span class="nc" id="L49">                                    .build());</span>
+                });
     }
 
     public Mono&lt;ServerResponse&gt; listar(ServerRequest request) {
-<span class="nc" id="L31">        return ServerResponse.ok()</span>
-<span class="nc" id="L32">                .body(tecnologiaUseCase.listarTodas(), Tecnologia.class);</span>
+<span class="nc" id="L54">        return ServerResponse.ok()</span>
+<span class="nc" id="L55">                .body(tecnologiaServicePort.listarTodas()</span>
+<span class="nc" id="L56">                        .map(tecnologiaMapper::toResponse), TecnologiaResponse.class);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

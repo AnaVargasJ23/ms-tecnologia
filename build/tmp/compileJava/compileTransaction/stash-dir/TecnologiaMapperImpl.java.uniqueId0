@@ -1,0 +1,45 @@
+package com.onclass.tecnologia.infrastructure.entrypoints.mapper;
+
+import com.onclass.tecnologia.domain.model.Tecnologia;
+import com.onclass.tecnologia.infrastructure.entrypoints.dto.TecnologiaRequest;
+import com.onclass.tecnologia.infrastructure.entrypoints.dto.TecnologiaResponse;
+import javax.annotation.processing.Generated;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = "org.mapstruct.ap.MappingProcessor",
+    date = "2026-05-28T16:18:21-0500",
+    comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.14.4.jar, environment: Java 21.0.11 (Oracle Corporation)"
+)
+@Component
+public class TecnologiaMapperImpl implements TecnologiaMapper {
+
+    @Override
+    public Tecnologia toDomain(TecnologiaRequest request) {
+        if ( request == null ) {
+            return null;
+        }
+
+        Tecnologia tecnologia = new Tecnologia();
+
+        tecnologia.setNombre( request.getNombre() );
+        tecnologia.setDescripcion( request.getDescripcion() );
+
+        return tecnologia;
+    }
+
+    @Override
+    public TecnologiaResponse toResponse(Tecnologia tecnologia) {
+        if ( tecnologia == null ) {
+            return null;
+        }
+
+        TecnologiaResponse tecnologiaResponse = new TecnologiaResponse();
+
+        tecnologiaResponse.setId( tecnologia.getId() );
+        tecnologiaResponse.setNombre( tecnologia.getNombre() );
+        tecnologiaResponse.setDescripcion( tecnologia.getDescripcion() );
+
+        return tecnologiaResponse;
+    }
+}
