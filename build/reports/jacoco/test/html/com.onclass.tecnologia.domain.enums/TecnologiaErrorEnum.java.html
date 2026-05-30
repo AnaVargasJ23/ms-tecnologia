@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TecnologiaErrorEnum.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-tecnologia</a> &gt; <a href="index.source.html" class="el_package">com.onclass.tecnologia.domain.enums</a> &gt; <span class="el_source">TecnologiaErrorEnum.java</span></div><h1>TecnologiaErrorEnum.java</h1><pre class="source lang-java linenums">package com.onclass.tecnologia.domain.enums;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+<span class="fc" id="L6">@Getter</span>
+@RequiredArgsConstructor
+public enum TecnologiaErrorEnum {
+
+<span class="fc" id="L10">    NOMBRE_OBLIGATORIO(&quot;TEC-001&quot;, &quot;El nombre es obligatorio&quot;),</span>
+<span class="fc" id="L11">    NOMBRE_MAX_50(&quot;TEC-002&quot;, &quot;El nombre no puede superar 50 caracteres&quot;),</span>
+<span class="fc" id="L12">    DESCRIPCION_OBLIGATORIA(&quot;TEC-003&quot;, &quot;La descripción es obligatoria&quot;),</span>
+<span class="fc" id="L13">    DESCRIPCION_MAX_90(&quot;TEC-004&quot;, &quot;La descripción no puede superar 90 caracteres&quot;),</span>
+<span class="fc" id="L14">    NOMBRE_DUPLICADO(&quot;TEC-005&quot;, &quot;Ya existe una tecnología con ese nombre&quot;);</span>
+
+    private final String code;
+    private final String message;
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

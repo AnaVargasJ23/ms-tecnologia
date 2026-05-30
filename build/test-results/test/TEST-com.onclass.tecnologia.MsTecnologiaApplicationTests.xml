@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.onclass.tecnologia.MsTecnologiaApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-05-30T01:35:01.543Z" hostname="ANA-VARGASJ.local" time="0.459">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.onclass.tecnologia.MsTecnologiaApplicationTests" time="0.459"/>
+  <system-out><![CDATA[20:34:59.925 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.onclass.tecnologia.MsTecnologiaApplicationTests]: MsTecnologiaApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+20:34:59.990 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.onclass.tecnologia.MsTecnologiaApplication for test class com.onclass.tecnologia.MsTecnologiaApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.14)
+
+2026-05-29T20:35:00.190-05:00  INFO 56761 --- [ms-tecnologia] [    Test worker] c.o.t.MsTecnologiaApplicationTests       : Starting MsTecnologiaApplicationTests using Java 21.0.11 with PID 56761 (started by ana.vargasj in /Users/ana.vargasj/Documents/GitHub/ms-tecnologia)
+2026-05-29T20:35:00.190-05:00  INFO 56761 --- [ms-tecnologia] [    Test worker] c.o.t.MsTecnologiaApplicationTests       : No active profile set, falling back to 1 default profile: "default"
+2026-05-29T20:35:00.531-05:00  INFO 56761 --- [ms-tecnologia] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data R2DBC repositories in DEFAULT mode.
+2026-05-29T20:35:00.609-05:00  INFO 56761 --- [ms-tecnologia] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 74 ms. Found 1 R2DBC repository interface.
+2026-05-29T20:35:01.194-05:00 ERROR 56761 --- [ms-tecnologia] [       single-1] i.n.r.d.DnsServerAddressStreamProviders  : Unable to load io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'. Use DEBUG level to see the full stack: java.lang.UnsatisfiedLinkError: failed to load the required native library
+2026-05-29T20:35:01.501-05:00  INFO 56761 --- [ms-tecnologia] [actor-tcp-nio-2] i.a.r.mysql.client.ReactorNettyClient    : Response: OkMessage{isEndOfRows=false, affectedRows=0, lastInsertId=0, serverStatuses=2, warnings=1, information='', systemVariables={}}, reports 1 warning(s)
+2026-05-29T20:35:01.504-05:00  INFO 56761 --- [ms-tecnologia] [actor-tcp-nio-2] i.a.r.mysql.client.ReactorNettyClient    : Response: OkMessage{isEndOfRows=false, affectedRows=0, lastInsertId=0, serverStatuses=2, warnings=1, information='', systemVariables={}}, reports 1 warning(s)
+2026-05-29T20:35:01.539-05:00  INFO 56761 --- [ms-tecnologia] [    Test worker] c.o.t.MsTecnologiaApplicationTests       : Started MsTecnologiaApplicationTests in 1.47 seconds (process running for 2.216)
+]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/Users/ana.vargasj/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.17.8/f09415827a71be7ed621c7bd02550678f28bc81c/byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>
