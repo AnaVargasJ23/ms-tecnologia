@@ -45,4 +45,9 @@ public class TecnologiaPersistenceAdapter implements ITecnologiaPersistencePort 
                 entity.getDescripcion()
         );
     }
+
+    @Override
+    public Mono<Tecnologia> buscarPorId(Long id) {
+        return repository.findById(id).map(this::toDomain);
+    }
 }

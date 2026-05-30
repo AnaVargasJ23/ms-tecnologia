@@ -7,4 +7,6 @@ import reactor.core.publisher.Mono;
 public interface ITecnologiaServicePort {
     Mono<Tecnologia> registrar(Tecnologia tecnologia);
     Flux<Tecnologia> listarTodas();
+    Mono<Tecnologia> buscarPorId(Long id);
+
 }

@@ -12,5 +12,6 @@ public interface ITecnologiaPersistencePort {
     Mono<Tecnologia> guardar(Tecnologia tecnologia);
     Mono<Boolean> existePorNombre(String nombre);
     Flux<Tecnologia> listarTodas();
+    Mono<Tecnologia> buscarPorId(Long id);
 }
 

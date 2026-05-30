@@ -59,4 +59,10 @@ public class TecnologiaUseCase implements ITecnologiaServicePort {
                     TecnologiaErrorEnum.DESCRIPCION_MAX_90.getMessage());
         }
     }
+
+    @Override
+    public Mono<Tecnologia> buscarPorId(Long id) {
+        return persistencePort.buscarPorId(id);
+    }
+
 }

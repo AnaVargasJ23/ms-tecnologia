@@ -59,5 +59,11 @@ public class TecnologiaUseCase implements ITecnologiaServicePort {
 <span class="fc" id="L59">                    TecnologiaErrorEnum.DESCRIPCION_MAX_90.getMessage());</span>
         }
 <span class="fc" id="L61">    }</span>
+
+    @Override
+    public Mono&lt;Tecnologia&gt; buscarPorId(Long id) {
+<span class="fc" id="L65">        return persistencePort.buscarPorId(id);</span>
+    }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

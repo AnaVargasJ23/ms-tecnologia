@@ -110,4 +110,22 @@ class TecnologiaUseCaseTest {
                 .expectNextCount(2)
                 .verifyComplete();
     }
+
+    @Test
+    void buscarPorId_exitoso() {
+        when(persistencePort.buscarPorId(1L))
+                .thenReturn(Mono.just(new Tecnologia(1L, "Java", "Lenguaje de programación")));
+
+        StepVerifier.create(useCase.buscarPorId(1L))
+                .expectNextMatches(t -> t.getId() == 1L && t.getNombre().equals("Java"))
+                .verifyComplete();
+    }
+
+    @Test
+    void buscarPorId_noExiste_retornaVacio() {
+        when(persistencePort.buscarPorId(999L)).thenReturn(Mono.empty());
+
+        StepVerifier.create(useCase.buscarPorId(999L))
+                .verifyComplete();
+    }
 }

@@ -45,5 +45,10 @@ public class TecnologiaPersistenceAdapter implements ITecnologiaPersistencePort 
 <span class="nc" id="L45">                entity.getDescripcion()</span>
         );
     }
+
+    @Override
+    public Mono&lt;Tecnologia&gt; buscarPorId(Long id) {
+<span class="nc" id="L51">        return repository.findById(id).map(this::toDomain);</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

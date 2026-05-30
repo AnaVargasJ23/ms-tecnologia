@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TecnologiaRouter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ms-tecnologia</a> &gt; <a href="index.source.html" class="el_package">com.onclass.tecnologia.infrastructure.entrypoints</a> &gt; <span class="el_source">TecnologiaRouter.java</span></div><h1>TecnologiaRouter.java</h1><pre class="source lang-java linenums">package com.onclass.tecnologia.infrastructure.entrypoints;
 
-import com.onclass.tecnologia.application.handler.TecnologiaHandler;
+import com.onclass.tecnologia.infrastructure.entrypoints.handler.TecnologiaHandler;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springdoc.core.annotations.RouterOperations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
@@ -18,7 +15,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 @Configuration
 @Tag(name = &quot;Tecnología&quot;, description = &quot;Gestión de tecnologías del sistema On-Class&quot;)
-<span class="fc" id="L21">public class TecnologiaRouter {</span>
+<span class="fc" id="L18">public class TecnologiaRouter {</span>
 
     @Bean
     @RouterOperations({
@@ -53,10 +50,11 @@ import org.springframework.web.reactive.function.server.ServerResponse;
             )
     })
     public RouterFunction&lt;ServerResponse&gt; tecnologiaRoutes(TecnologiaHandler handler) {
-<span class="fc" id="L56">        return RouterFunctions.route()</span>
-<span class="fc" id="L57">                .POST(&quot;/api/v1/tecnologias&quot;, handler::registrar)</span>
-<span class="fc" id="L58">                .GET(&quot;/api/v1/tecnologias&quot;, handler::listar)</span>
-<span class="fc" id="L59">                .build();</span>
+<span class="fc" id="L53">        return RouterFunctions.route()</span>
+<span class="fc" id="L54">                .POST(&quot;/api/v1/tecnologias&quot;, handler::registrar)</span>
+<span class="fc" id="L55">                .GET(&quot;/api/v1/tecnologias&quot;, handler::listar)</span>
+<span class="fc" id="L56">                .GET(&quot;/api/v1/tecnologias/{id}&quot;, handler::buscarPorId)</span>
+<span class="fc" id="L57">                .build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
