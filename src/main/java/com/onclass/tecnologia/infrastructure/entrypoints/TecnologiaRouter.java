@@ -81,6 +81,29 @@ public class TecnologiaRouter {
                                     @ApiResponse(responseCode = "404", description = "Tecnología no encontrada")
                             }
                     )
+            ),
+            @RouterOperation(
+                    path = "/api/v1/tecnologias/{id}",
+                    method = RequestMethod.DELETE,
+                    beanClass = TecnologiaHandler.class,
+                    beanMethod = "eliminar",
+                    operation = @Operation(
+                            operationId = "eliminarTecnologia",
+                            summary = "Eliminar tecnología por ID",
+                            tags = {"Tecnología"},
+                            parameters = {
+                                    @io.swagger.v3.oas.annotations.Parameter(
+                                            name = "id",
+                                            in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+                                            required = true,
+                                            description = "ID de la tecnología a eliminar"
+                                    )
+                            },
+                            responses = {
+                                    @ApiResponse(responseCode = "204", description = "Tecnología eliminada exitosamente"),
+                                    @ApiResponse(responseCode = "404", description = "Tecnología no encontrada")
+                            }
+                    )
             )
     })
     public RouterFunction<ServerResponse> tecnologiaRoutes(TecnologiaHandler handler) {
@@ -88,6 +111,7 @@ public class TecnologiaRouter {
                 .POST("/api/v1/tecnologias", handler::registrar)
                 .GET("/api/v1/tecnologias", handler::listar)
                 .GET("/api/v1/tecnologias/{id}", handler::buscarPorId)
+                .DELETE("/api/v1/tecnologias/{id}", handler::eliminar)
                 .build();
     }
 }

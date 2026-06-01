@@ -8,5 +8,7 @@ public interface ITecnologiaServicePort {
     Mono<Tecnologia> registrar(Tecnologia tecnologia);
     Flux<Tecnologia> listarTodas();
     Mono<Tecnologia> buscarPorId(Long id);
+    Mono<Void> eliminarPorId(Long id);
+
 
 }

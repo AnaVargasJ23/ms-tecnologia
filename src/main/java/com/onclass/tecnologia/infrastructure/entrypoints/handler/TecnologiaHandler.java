@@ -63,4 +63,13 @@ public class TecnologiaHandler {
                 .flatMap(t -> ServerResponse.ok().bodyValue(t))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
+
+    public Mono<ServerResponse> eliminar(ServerRequest request) {
+        Long id = Long.valueOf(request.pathVariable("id"));
+        return tecnologiaServicePort.eliminarPorId(id)
+                .then(ServerResponse.noContent().build())
+                .onErrorResume(Exception.class, e ->
+                        ServerResponse.status(HttpStatus.NOT_FOUND).build());
+    }
+
 }
