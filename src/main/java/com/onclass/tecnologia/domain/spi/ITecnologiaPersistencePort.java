@@ -13,5 +13,6 @@ public interface ITecnologiaPersistencePort {
     Mono<Boolean> existePorNombre(String nombre);
     Flux<Tecnologia> listarTodas();
     Mono<Tecnologia> buscarPorId(Long id);
+    Mono<Void> eliminarPorId(Long id);
 }
 

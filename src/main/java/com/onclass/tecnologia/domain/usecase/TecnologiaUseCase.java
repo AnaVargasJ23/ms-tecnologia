@@ -65,4 +65,9 @@ public class TecnologiaUseCase implements ITecnologiaServicePort {
         return persistencePort.buscarPorId(id);
     }
 
+    @Override
+    public Mono<Void> eliminarPorId(Long id) {
+        return persistencePort.eliminarPorId(id);
+    }
+
 }

@@ -50,4 +50,10 @@ public class TecnologiaPersistenceAdapter implements ITecnologiaPersistencePort 
     public Mono<Tecnologia> buscarPorId(Long id) {
         return repository.findById(id).map(this::toDomain);
     }
+
+    @Override
+    public Mono<Void> eliminarPorId(Long id) {
+        return repository.deleteById(id);
+    }
+
 }

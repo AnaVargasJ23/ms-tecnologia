@@ -128,4 +128,13 @@ class TecnologiaUseCaseTest {
         StepVerifier.create(useCase.buscarPorId(999L))
                 .verifyComplete();
     }
+
+    @Test
+    void eliminarPorId_exitoso() {
+        when(persistencePort.eliminarPorId(1L)).thenReturn(Mono.empty());
+
+        StepVerifier.create(useCase.eliminarPorId(1L))
+                .verifyComplete();
+    }
+
 }
