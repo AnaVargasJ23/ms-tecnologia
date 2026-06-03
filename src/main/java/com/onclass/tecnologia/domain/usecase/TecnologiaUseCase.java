@@ -16,12 +16,8 @@ public class TecnologiaUseCase implements ITecnologiaServicePort {
 
     @Override
     public Mono<Tecnologia> registrar(Tecnologia tecnologia) {
-        try {
-            validar(tecnologia);
-        } catch (TecnologiaException e) {
-            return Mono.error(e);
-        }
-        return persistencePort.existePorNombre(tecnologia.getNombre())
+        return validar(tecnologia)
+                .flatMap(t -> persistencePort.existePorNombre(t.getNombre()))
                 .flatMap(existe -> {
                     if (existe) {
                         return Mono.error(new TecnologiaException(
@@ -37,29 +33,6 @@ public class TecnologiaUseCase implements ITecnologiaServicePort {
         return persistencePort.listarTodas();
     }
 
-    private void validar(Tecnologia tecnologia) {
-        if (tecnologia.getNombre() == null || tecnologia.getNombre().isBlank()) {
-            throw new TecnologiaException(
-                    TecnologiaErrorEnum.NOMBRE_OBLIGATORIO.getCode(),
-                    TecnologiaErrorEnum.NOMBRE_OBLIGATORIO.getMessage());
-        }
-        if (tecnologia.getNombre().length() > 50) {
-            throw new TecnologiaException(
-                    TecnologiaErrorEnum.NOMBRE_MAX_50.getCode(),
-                    TecnologiaErrorEnum.NOMBRE_MAX_50.getMessage());
-        }
-        if (tecnologia.getDescripcion() == null || tecnologia.getDescripcion().isBlank()) {
-            throw new TecnologiaException(
-                    TecnologiaErrorEnum.DESCRIPCION_OBLIGATORIA.getCode(),
-                    TecnologiaErrorEnum.DESCRIPCION_OBLIGATORIA.getMessage());
-        }
-        if (tecnologia.getDescripcion().length() > 90) {
-            throw new TecnologiaException(
-                    TecnologiaErrorEnum.DESCRIPCION_MAX_90.getCode(),
-                    TecnologiaErrorEnum.DESCRIPCION_MAX_90.getMessage());
-        }
-    }
-
     @Override
     public Mono<Tecnologia> buscarPorId(Long id) {
         return persistencePort.buscarPorId(id);
@@ -70,4 +43,27 @@ public class TecnologiaUseCase implements ITecnologiaServicePort {
         return persistencePort.eliminarPorId(id);
     }
 
+    private Mono<Tecnologia> validar(Tecnologia tecnologia) {
+        if (tecnologia.getNombre() == null || tecnologia.getNombre().isBlank()) {
+            return Mono.error(new TecnologiaException(
+                    TecnologiaErrorEnum.NOMBRE_OBLIGATORIO.getCode(),
+                    TecnologiaErrorEnum.NOMBRE_OBLIGATORIO.getMessage()));
+        }
+        if (tecnologia.getNombre().length() > 50) {
+            return Mono.error(new TecnologiaException(
+                    TecnologiaErrorEnum.NOMBRE_MAX_50.getCode(),
+                    TecnologiaErrorEnum.NOMBRE_MAX_50.getMessage()));
+        }
+        if (tecnologia.getDescripcion() == null || tecnologia.getDescripcion().isBlank()) {
+            return Mono.error(new TecnologiaException(
+                    TecnologiaErrorEnum.DESCRIPCION_OBLIGATORIA.getCode(),
+                    TecnologiaErrorEnum.DESCRIPCION_OBLIGATORIA.getMessage()));
+        }
+        if (tecnologia.getDescripcion().length() > 90) {
+            return Mono.error(new TecnologiaException(
+                    TecnologiaErrorEnum.DESCRIPCION_MAX_90.getCode(),
+                    TecnologiaErrorEnum.DESCRIPCION_MAX_90.getMessage()));
+        }
+        return Mono.just(tecnologia);
+    }
 }
